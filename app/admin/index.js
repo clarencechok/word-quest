@@ -268,9 +268,13 @@ const Index = () => {
             >
               <CustomText bold>{item.question}</CustomText>
               <CustomText>A: {item.optionA}</CustomText>
+              <CustomText style={{opacity:0.7}}>({item?.optionA_explanation})</CustomText>
               <CustomText>B: {item.optionB}</CustomText>
+              <CustomText style={{opacity:0.7}}>({item?.optionB_explanation})</CustomText>
               <CustomText>C: {item.optionC}</CustomText>
+              <CustomText style={{opacity:0.7}}>({item?.optionC_explanation})</CustomText>
               <CustomText>D: {item.optionD}</CustomText>
+              <CustomText style={{opacity:0.7}}>({item?.optionD_explanation})</CustomText>
               <CustomText bold>Answer: {item.answer}</CustomText>
             </TouchableOpacity>
           );
