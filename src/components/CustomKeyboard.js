@@ -120,7 +120,7 @@ const CustomKeyboard = ({ onPressWord, onDelete, onConfirm }) => {
         />
         <CustomButton
           onPress={() => {
-            onDelete;
+            onDelete()
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
 
           }}

@@ -1,5 +1,5 @@
 export const IMAGES = {
-  wrong: require("./wrong.jpg"),
-  misplaced: require("./misplaced.jpg"),
+  wrong: require("./wrong.png"),
+  misplaced: require("./misplaced.png"),
   correct_position: require("./correct_position.jpg"),
 };

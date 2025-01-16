@@ -6,6 +6,7 @@ import { CustomText } from "../../../src/components/CustomText";
 import CustomButton from "../../../src/components/CustomButton";
 import { Colors } from "../../../src/utils/colors";
 import InstructionModal from "../../../src/components/InstructionModal";
+import { SlideInDown, SlideInUp } from "react-native-reanimated";
 
 const Grammar = () => {
   const params = useLocalSearchParams();
@@ -15,8 +16,12 @@ const Grammar = () => {
   const [questions, setQuestions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
 
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const [userResponse, setUserResponse] = useState([]);
   const [showInstruction, setShowInstruction] = useState(false);
+
+  const [showSubmit, setShowSubmit] = useState(false);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -47,23 +52,23 @@ const Grammar = () => {
     setShowInstruction(false);
   };
 
+  const handleSubmit = useCallback(() => {
+    router.replace({
+      pathname: "/game/Result",
+      params: {
+        questions: JSON.stringify(questions),
+        result: JSON.stringify(userResponse),
+        totalCorrectAnswer: userResponse.filter((item) => item.isCorrect)
+          .length,
+        totalQuestions: questions.length,
+      },
+    });
+
+    setSelectedOption(null);
+  }, [questions, selectedIndex, userResponse]);
+
   const handleAnswer = (question, correctAnswer, userAnswer, index) => {
     if (selectedOption) {
-      if (index === 2) {
-        router.replace({
-          pathname: "/game/Result",
-          params: {
-            result: userResponse,
-            totalCorrectAnswer: userResponse.filter((item) => item.isCorrect)
-              .length,
-            totalQuestions: questions.length,
-          },
-        });
-        console.log("navigating to /Home");
-        setSelectedOption(null);
-
-        return;
-      }
       setUserResponse((prev) => [
         ...prev,
         {
@@ -75,8 +80,13 @@ const Grammar = () => {
             String(correctAnswer).toLowerCase(),
         },
       ]);
-      pagerRef.current?.setPage(index + 1);
-      setSelectedOption(null);
+
+      if (index <= 2) {
+        pagerRef.current?.setPage(index);
+        setSelectedOption(null);
+      } else {
+        setShowSubmit(true);
+      }
     } else {
       console.log("please select");
     }
@@ -88,6 +98,9 @@ const Grammar = () => {
         ref={pagerRef}
         initialPage={0}
         scrollEnabled={false}
+        onPageSelected={(e) => {
+          setSelectedIndex(e.nativeEvent.position);
+        }}
         style={styles.container}
       >
         {questions.map((question, index) => {
@@ -152,18 +165,31 @@ const Grammar = () => {
                 }}
               />
 
-              <CustomButton
-                text={"Submit Answer"}
-                viewStyle={{ marginTop: "30%" }}
-                onPress={() =>
-                  handleAnswer(
-                    question.question,
-                    question.answer,
-                    selectedOption,
-                    index
-                  )
-                }
-              />
+              {!showSubmit && (
+                <CustomButton
+                  text={"Next"}
+                  viewStyle={{ marginTop: "30%" }}
+                  onPress={() => {
+                    handleAnswer(
+                      question.question,
+                      question.answer,
+                      selectedOption,
+                      index + 1
+                    );
+                  }}
+                />
+              )}
+
+              {selectedIndex === 2 && showSubmit && (
+                <CustomButton
+                  entering={SlideInDown}
+                  text={"Submit Answer"}
+                  viewStyle={{ marginTop: "30%" }}
+                  onPress={() => {
+                    handleSubmit();
+                  }}
+                />
+              )}
             </View>
           );
         })}

@@ -86,21 +86,21 @@ const InstructionModal = ({ visible, onStartGame, onClose, mode }) => {
                       style={{ width: 200, height: 40, resizeMode: "cover" }}
                     />
                     <Text style={styles.body}>
-                      {Bold("A")} is in the word and in the correct spot.
+                      {Bold("\"A\"")} is in the word and in the correct spot.
+                    </Text>
+                    <Image
+                      source={IMAGES.misplaced}
+                      style={{ width: 200, height: 40, resizeMode: "cover" }}
+                    />
+                    <Text style={styles.body}>
+                      {Bold("\"M\"")} is in the word and in the wrong spot.
                     </Text>
                     <Image
                       source={IMAGES.wrong}
                       style={{ width: 200, height: 40, resizeMode: "cover" }}
                     />
                     <Text style={styles.body}>
-                      {Bold("P")} is in the word and in the wrong spot.
-                    </Text>
-                    <Image
-                      source={IMAGES.wrong}
-                      style={{ width: 200, height: 40, resizeMode: "cover" }}
-                    />
-                    <Text style={styles.body}>
-                      {Bold("O")} is not in the word in any spot.
+                      {Bold("\"O\"")} is not in the word in any spot.
                     </Text>
                   </>
                 )}
