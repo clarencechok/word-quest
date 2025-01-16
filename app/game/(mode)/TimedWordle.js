@@ -84,8 +84,7 @@ const TimedWordle = () => {
   };
 
   const handleConfirm = () => {
-
-    if (rows[currentRow].guess.length !== 4) {
+    if (rows[currentRow].guess.length < 4) {
       alert("Please enter a 4-letter word.");
       return;
     }
@@ -96,6 +95,7 @@ const TimedWordle = () => {
     updatedRows[currentRow].feedback = feedback;
 
     setRows(updatedRows);
+    setCurrentRow((prev) => prev + 1); // Move to the next row
 
     console.log(rows[currentRow].guess, targetWord);
 
@@ -115,22 +115,33 @@ const TimedWordle = () => {
       return;
     }
 
-    if (currentRow === 5) {
+    if (currentRow + 1 === 5) {
       // alert("Game Over!");
-      router.replace({
-        pathname: "/game/Result",
-        params: {
-          result: "lost",
-          targetWord,
-        },
-      });
+      Alert.alert(
+        "Game Over!",
+        rows[currentRow].guess === targetWord ? "You Win!" : "You Lost",
+        [
+          {
+            text: "Confirm",
+            onPress() {
+              router.replace({
+                pathname: "/game/Result",
+                params: {
+                  result: "lost",
+                  targetWord,
+                },
+              });
 
-      setCurrentRow(0);
-      setRows(Array.from({ length: 6 }, () => ({ guess: "", feedback: [] })));
+              setCurrentRow(0);
+              setRows(
+                Array.from({ length: 6 }, () => ({ guess: "", feedback: [] }))
+              );
+            },
+          },
+        ]
+      );
       return;
     }
-
-    setCurrentRow((prev) => prev + 1); // Move to the next row
   };
 
   const validateGuess = (guess, targetWord) => {
