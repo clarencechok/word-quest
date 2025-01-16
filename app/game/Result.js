@@ -26,14 +26,8 @@ const Result = () => {
 
   const targetWord = params?.targetWord;
   const questions = params?.questions ? JSON.parse(params?.questions) : null;
-  const userResponse = params?.result ? JSON.parse(params?.result) : null;
-
-  // {
-  // question,
-  // correctAnswer,
-  // userAnswer,
-  // isCorrect:
-  // }
+  const userResponse =
+    params?.result.length > 10 ? JSON.parse(params?.result) : null;
 
   const onCloseWordInfo = () => {
     setShowWordInfo(false);

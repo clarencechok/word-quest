@@ -25,7 +25,6 @@ const WordInfo = ({ visible, word, onClose }) => {
       );
 
       const data = await res.json();
-      console.log(data);
 
       if (data?.message) {
         setError("Definition not found");
@@ -150,7 +149,7 @@ const WordInfo = ({ visible, word, onClose }) => {
                             </Text>
                             <View>
                               {item?.definitions.map((def, i) => (
-                                <View style={{ flexDirection: "row" }}>
+                                <View key={i} style={{ flexDirection: "row" }}>
                                   <Text key={i} style={styles.body}>
                                     {"    •     "}
                                   </Text>
