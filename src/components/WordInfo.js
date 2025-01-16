@@ -45,7 +45,7 @@ const WordInfo = ({ visible, word, onClose }) => {
       getData();
     }
   }, [word]);
-  console.log(loading, !error);
+
   return (
     <View>
       <Modal
@@ -156,7 +156,10 @@ const WordInfo = ({ visible, word, onClose }) => {
                                   </Text>
                                   <Text
                                     key={`text_${i}`}
-                                    style={[styles.body, { marginTop: 5 }]}
+                                    style={[
+                                      styles.body,
+                                      { flex: 1, marginTop: 5 },
+                                    ]}
                                   >
                                     {def?.definition}
                                   </Text>
