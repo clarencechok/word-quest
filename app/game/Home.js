@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import React, {  } from "react";
+import React from "react";
 import { router, useGlobalSearchParams } from "expo-router";
 import CustomButton from "../../src/components/CustomButton";
 import { Logout } from "../../src/auth/handleAuth";
@@ -8,7 +8,6 @@ import { CustomText } from "../../src/components/CustomText";
 import { BounceIn } from "react-native-reanimated";
 
 const Home = () => {
-
   const params = useGlobalSearchParams();
 
   return (
@@ -25,32 +24,38 @@ const Home = () => {
         <CustomButton
           text="Wordle"
           entering={BounceIn}
-          onPress={() => router.navigate({
-            pathname: "/game/(mode)/Wordle",
-            params: {
-              words: params?.initialData
-            }
-          })}
+          onPress={() =>
+            router.navigate({
+              pathname: "/game/(mode)/Wordle",
+              params: {
+                words: params?.initialData,
+              },
+            })
+          }
         />
         <CustomButton
           text="Timed Wordle"
           entering={BounceIn.delay(100)}
-          onPress={() => router.navigate({
-            pathname: "/game/(mode)/TimedWordle",
-            params: {
-              words: params?.initialData
-            }
-          })}
+          onPress={() =>
+            router.navigate({
+              pathname: "/game/(mode)/TimedWordle",
+              params: {
+                words: params?.initialData,
+              },
+            })
+          }
         />
         <CustomButton
           text="Grammar"
           entering={BounceIn.delay(200)}
-          onPress={() => router.navigate({
-            pathname: "/game/(mode)/Grammar",
-            params: {
-              questions: params?.initialData
-            }
-          })}
+          onPress={() =>
+            router.navigate({
+              pathname: "/game/(mode)/Grammar",
+              params: {
+                questions: params?.initialData,
+              },
+            })
+          }
         />
       </View>
 

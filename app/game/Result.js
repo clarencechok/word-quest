@@ -62,18 +62,18 @@ Can you beat my streak? 💪
   };
 
   useEffect(() => {
-    if (targetWord) {
-      UpdateUserData(params?.result === "win", params?.mode)
-        .then((userData) => {
-          setUserData(userData);
-          setLoading(false);
-        })
-        .catch((e) => {
-          console.log({ e });
-          setLoading(false);
-        });
-    }
-  }, [targetWord]);
+    // if (targetWord) {
+    UpdateUserData(params?.result === "win", params?.mode)
+      .then((userData) => {
+        setUserData(userData);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.log({ e });
+        setLoading(false);
+      });
+    // }
+  }, [targetWord, params?.mode]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -107,7 +107,7 @@ Can you beat my streak? 💪
   }, [showWordInfo, loading, targetWord, userData]);
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 15, gap: 10 }}>
+    <ScrollView contentContainerStyle={{ padding: 15, paddingBottom: 150 }}>
       {targetWord ? (
         <CustomText centerText type={"title"} style={styles.title}>
           YOU {params?.result}!
@@ -208,11 +208,6 @@ Can you beat my streak? 💪
           )}
         </View>
       )}
-
-      {/* question,
-          correctAnswer,
-          userAnswer,
-          isCorrect: */}
 
       {questions && userResponse && (
         <>
