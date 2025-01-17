@@ -148,23 +148,35 @@ const handleAuthError = (error) => {
   return errorMessage;
 };
 
-const UpdateUserData = async (isWin) => {
+const UpdateUserData = async (isWin, mode) => {
   try {
     const { currentUser } = auth;
     const userDoc = doc(db, "users", currentUser.uid); // Reference to the user's document
 
-    await updateDoc(userDoc, {
-      totalGamesPlayed: increment(1), // Increment total games played
-      win: isWin ? increment(1) : increment(0), // Increment win if true
-      lost: isWin ? increment(0) : increment(1), // Increment lost if false
-      streaks: isWin ? increment(1) : 0, // Reset streaks on loss
-    });
-
-    const userData = await getDoc(userDoc);
+    let userData = await getDoc(userDoc);
     if (userData.exists()) {
-      return userData.data();
+      const _userData = userData.data();
+
+      const modeData = _userData[mode];
+
+      const updatedUserData = {
+        ..._userData,
+        [mode]: {
+          totalGamesPlayed: modeData.totalGamesPlayed + 1, // increment(1), // Increment total games played
+          win: isWin ? modeData.win + 1 : modeData.win, // Increment win if true
+          lost: isWin ? modeData.lost : modeData.lost + 1, // Increment lost if false
+          streaks: isWin ? modeData.streaks + 1 : 0, // Reset streaks on loss
+        },
+        lastPlayedTime:
+          mode === "timedWordle"
+            ? Date.now()
+            : _userData["timedWordle"]?.lastPlayedTime ?? 0,
+      };
+
+      await updateDoc(userDoc, updatedUserData);
+
+      return updatedUserData[mode];
     }
-    // console.log("User stats updated successfully.");
   } catch (error) {
     console.error("Error updating stats: ", error);
   }
