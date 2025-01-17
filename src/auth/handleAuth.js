@@ -162,10 +162,10 @@ const UpdateUserData = async (isWin, mode) => {
       const updatedUserData = {
         ..._userData,
         [mode]: {
-          totalGamesPlayed: modeData.totalGamesPlayed + 1, // increment(1), // Increment total games played
-          win: isWin ? modeData.win + 1 : modeData.win, // Increment win if true
-          lost: isWin ? modeData.lost : modeData.lost + 1, // Increment lost if false
-          streaks: isWin ? modeData.streaks + 1 : 0, // Reset streaks on loss
+          totalGamesPlayed: (modeData?.totalGamesPlayed ?? 0) + 1, // increment(1), // Increment total games played
+          win: isWin ? (modeData?.win ?? 0) + 1 : modeData?.win ?? 0, // Increment win if true
+          lost: isWin ? modeData?.lost ?? 0 : (modeData?.lost ?? 0) + 1, // Increment lost if false
+          streaks: isWin ? (modeData?.streaks ?? 0) + 1 : 0, // Reset streaks on loss
         },
         lastPlayedTime:
           mode === "timedWordle"
