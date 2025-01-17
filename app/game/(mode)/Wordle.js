@@ -45,7 +45,6 @@ const Wordle = () => {
   };
 
   const handleConfirm = () => {
-
     if (rows[currentRow].guess.length !== 5) {
       alert("Please enter a 5-letter word.");
       return;
@@ -66,8 +65,9 @@ const Wordle = () => {
         router.replace({
           pathname: "/game/Result",
           params: {
-            result: "win",
             targetWord,
+            result: "win",
+            mode: "wordle",
           },
         });
         setCurrentRow(0);
@@ -81,8 +81,9 @@ const Wordle = () => {
       router.replace({
         pathname: "/game/Result",
         params: {
-          result: "lost",
           targetWord,
+          result: "lost",
+          mode: "wordle",
         },
       });
 

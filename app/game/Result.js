@@ -36,7 +36,10 @@ const Result = () => {
   const shareMessage = () => {
     if (targetWord) {
       const { totalGamesPlayed, win, lost, streaks } = userData;
+      const mode = params?.mode;
+
       return `WORD QUEST:
+>> ${mode === "wordle" ? "Wordle" : "Timed Wordle"} <<
 🎮 Game Results:
 - Total Games Played: ${totalGamesPlayed}
 - Wins: ${win}
@@ -60,12 +63,13 @@ Can you beat my streak? 💪
 
   useEffect(() => {
     if (targetWord) {
-      UpdateUserData(params?.result === "win")
+      UpdateUserData(params?.result === "win", params?.mode)
         .then((userData) => {
           setUserData(userData);
           setLoading(false);
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log({ e });
           setLoading(false);
         });
     }

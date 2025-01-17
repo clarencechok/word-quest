@@ -8,6 +8,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Colors } from "../../../src/utils/colors";
 import { fourLettersWords } from "../../../src/utils/CallbackWords";
 import { CustomText } from "../../../src/components/CustomText";
+import { auth, db } from "../../../src/utils/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 var interval;
 
@@ -24,6 +26,74 @@ const TimedWordle = () => {
   const [currentRow, setCurrentRow] = React.useState(0); // Track the active row
   const [targetWord, setTargetWord] = React.useState(""); // Hardcoded for now
 
+  // const checkTime = async () => {
+  //   const { currentUser } = auth;
+  //   const userDoc = doc(db, "users", currentUser.uid); // Reference to the user's document
+
+  //   let userData = (await getDoc(userDoc)).data();
+
+  //   const oneDayInMs = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+  //   const timeSinceLastPlayed = Date.now() - userData?.lastPlayedTime ?? 0;
+
+  //   if (timeSinceLastPlayed < oneDayInMs) {
+  //     const time = new Date(oneDayInMs - timeSinceLastPlayed).toLocaleString();
+  //     console.log("User has already played today.");
+  //     Alert.alert(
+  //       "Already played!",
+  //       `You can only play once in 24 hours.\nRemaining time is ${time}`
+  //     );
+  //     // return {
+  //     //   error: "You can only play once in 24 hours.",
+  //     //   timeRemaining: oneDayInMs - timeSinceLastPlayed,
+  //     // };
+  //   }
+  // };
+
+  const checkTime = async () => {
+    try {
+      const { currentUser } = auth;
+      const userDoc = doc(db, "users", currentUser.uid); // Reference to the user's document
+
+      let userData = (await getDoc(userDoc)).data();
+
+      const oneDayInMs = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+      const timeSinceLastPlayed = Date.now() - (userData?.lastPlayedTime ?? 0);
+
+      if (timeSinceLastPlayed < oneDayInMs) {
+        const remainingTimeMs = oneDayInMs - timeSinceLastPlayed;
+
+        // Calculate hours, minutes, and seconds
+        const hours = Math.floor(remainingTimeMs / (60 * 60 * 1000));
+        const minutes = Math.floor(
+          (remainingTimeMs % (60 * 60 * 1000)) / (60 * 1000)
+        );
+        const seconds = Math.floor((remainingTimeMs % (60 * 1000)) / 1000);
+
+        // Display the remaining time
+        Alert.alert(
+          "Already played!",
+          `You can only play once in 24 hours.\nRemaining time: ${hours}h ${minutes}m ${seconds}s`,
+          [
+            {
+              onPress: () => router.back(),
+            },
+          ]
+        );
+        return;
+      }
+
+      console.log("User can play the game.");
+      // Proceed with allowing the user to play the game
+    } catch (error) {
+      console.error("Error checking time:", error);
+      Alert.alert("Error", "An error occurred while checking play time.", [
+        {
+          text: "OK",
+          onPress: () => router.back(),
+        },
+      ]);
+    }
+  };
   useEffect(() => {
     const words = JSON.parse(params?.words)[1] ?? fourLettersWords;
 
@@ -31,6 +101,8 @@ const TimedWordle = () => {
     const _targetWord = words[randomWordNumber].toUpperCase();
     setTargetWord(_targetWord);
     console.log(_targetWord, randomWordNumber);
+
+    checkTime();
 
     handleShowInstruction();
 
@@ -69,8 +141,9 @@ const TimedWordle = () => {
                 router.replace({
                   pathname: "/game/Result",
                   params: {
-                    result: "lost",
                     targetWord,
+                    result: "lost",
+                    mode: "timedWordle",
                   },
                 });
               },
@@ -105,8 +178,9 @@ const TimedWordle = () => {
         router.replace({
           pathname: "/game/Result",
           params: {
-            result: "win",
             targetWord,
+            result: "win",
+            mode: "timedWordle",
           },
         });
         setCurrentRow(0);
@@ -127,8 +201,9 @@ const TimedWordle = () => {
               router.replace({
                 pathname: "/game/Result",
                 params: {
-                  result: "lost",
                   targetWord,
+                  result: "lost",
+                  mode: "timedWordle",
                 },
               });
 
