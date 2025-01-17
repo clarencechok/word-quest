@@ -24,14 +24,15 @@ export default function RootLayout() {
     }
 
     const notificationId = await Notifications.scheduleNotificationAsync({
+      identifier: "review",
       content: {
         title: "Can You Guess the Word of the Day!",
         body: "Solve today’s word puzzle and prove your skills!",
       },
       trigger: {
-        hour: 9, // 9 AM
-        minute: 0, // 0 minutes
-        repeats: true, // Repeat daily
+        type: Notifications.SchedulableTriggerInputTypes.DAILY,
+        hour: 9,
+        minute: 0,
         channelId: "daily_reminder",
       },
     });
@@ -42,6 +43,9 @@ export default function RootLayout() {
   useEffect(() => {
     Notifications.requestPermissionsAsync();
     scheduleDailyNotification();
+    // Notifications.getAllScheduledNotificationsAsync().then((e) =>
+    //   console.log(e)
+    // );
   }, []);
 
   return (
