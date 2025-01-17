@@ -22,6 +22,7 @@ import { TimedWordleModal } from "../../src/components/admin/TimedWordleModal";
 import { WordleModal } from "../../src/components/admin/WordleModal";
 import { useNavigation } from "expo-router";
 import { Logout } from "../../src/auth/handleAuth";
+import { RectButton } from "react-native-gesture-handler";
 
 const Index = () => {
   const [wordleWordsLoading, setWordleWordsLoading] = useState(false);
@@ -114,9 +115,9 @@ const Index = () => {
 
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={Logout}>
+        <RectButton onPress={Logout}>
           <MaterialIcons name="logout" size={24} color="black" />
-        </TouchableOpacity>
+        </RectButton>
       ),
     });
   }, []);
