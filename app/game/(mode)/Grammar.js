@@ -7,6 +7,7 @@ import CustomButton from "../../../src/components/CustomButton";
 import { Colors } from "../../../src/utils/colors";
 import InstructionModal from "../../../src/components/InstructionModal";
 import { SlideInDown, SlideInUp } from "react-native-reanimated";
+import { CheckTime } from "../../../src/utils/CheckTime";
 
 const Grammar = () => {
   const params = useLocalSearchParams();
@@ -36,6 +37,9 @@ const Grammar = () => {
   useEffect(() => {
     const questions = JSON.parse(params?.questions)[0];
     setQuestions(shuffleArray(questions).slice(0, 3));
+
+    // CheckTime("grammar");
+
     handleShowInstruction();
   }, []);
 
@@ -60,6 +64,7 @@ const Grammar = () => {
         result: JSON.stringify(userResponse),
         totalCorrectAnswer: userResponse.filter((item) => item.isCorrect)
           .length,
+        mode: "grammar",
         totalQuestions: questions.length,
       },
     });

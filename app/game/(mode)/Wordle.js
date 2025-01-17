@@ -7,6 +7,7 @@ import InstructionModal from "../../../src/components/InstructionModal";
 import { router, useLocalSearchParams } from "expo-router";
 import { Colors } from "../../../src/utils/colors";
 import { fiveLettersWords } from "../../../src/utils/CallbackWords";
+import { CheckTime } from "../../../src/utils/CheckTime";
 
 const Wordle = () => {
   const [rows, setRows] = useState(
@@ -27,6 +28,8 @@ const Wordle = () => {
     const _targetWord = words[randomWordNumber].toUpperCase();
     setTargetWord(_targetWord);
     console.log(_targetWord, randomWordNumber);
+
+    CheckTime('wordle');
 
     handleShowInstruction();
   }, []);
