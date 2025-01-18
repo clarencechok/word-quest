@@ -8,8 +8,6 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Colors } from "../../../src/utils/colors";
 import { fourLettersWords } from "../../../src/utils/CallbackWords";
 import { CustomText } from "../../../src/components/CustomText";
-import { auth, db } from "../../../src/utils/firebase";
-import { doc, getDoc } from "firebase/firestore";
 import { CheckTime } from "../../../src/utils/CheckTime";
 
 var interval;
@@ -27,8 +25,6 @@ const TimedWordle = () => {
   const [currentRow, setCurrentRow] = React.useState(0); // Track the active row
   const [targetWord, setTargetWord] = React.useState(""); // Hardcoded for now
 
-
-
   useEffect(() => {
     const words = JSON.parse(params?.words)[1] ?? fourLettersWords;
 
@@ -37,13 +33,16 @@ const TimedWordle = () => {
     setTargetWord(_targetWord);
     console.log(_targetWord, randomWordNumber);
 
-    CheckTime('timedWordle');
+    CheckTime("timedWordle");
 
     handleShowInstruction();
 
     return () => clearInterval(interval);
   }, []);
 
+  /**
+   * format seconds to readable format
+   */
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -64,6 +63,9 @@ const TimedWordle = () => {
     startTimer();
   };
 
+  /**
+   * start time when user press the start game button from instruction modal
+   */
   const startTimer = () => {
     interval = setInterval(() => {
       setTimeLeft((prev) => {
@@ -91,6 +93,9 @@ const TimedWordle = () => {
     }, 1000); // Run every second
   };
 
+  /**
+   * handle user interaction upon submit button click
+   */
   const handleConfirm = () => {
     if (rows[currentRow].guess.length < 4) {
       alert("Please enter a 4-letter word.");
@@ -154,6 +159,9 @@ const TimedWordle = () => {
     }
   };
 
+  /**
+   * check guess and assign the feedback color upon submission
+   */
   const validateGuess = (guess, targetWord) => {
     const feedback = Array(5).fill("wrong");
     const targetLetters = String(targetWord).toUpperCase().split("");
@@ -189,6 +197,9 @@ const TimedWordle = () => {
     setRows(updatedRows);
   };
 
+  /**
+   * delete words upon delete button press
+   */
   const handleDeleteWord = () => {
     const updatedRows = [...rows];
     updatedRows[currentRow].guess = updatedRows[currentRow].guess.slice(0, -1);

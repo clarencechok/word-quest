@@ -33,6 +33,9 @@ const Result = () => {
     setShowWordInfo(false);
   };
 
+  /**
+   * prepare the share message when data change {targetwords} or {game mode}
+   */
   const shareMessage = () => {
     if (targetWord) {
       const { totalGamesPlayed, win, lost, streaks } = userData;
@@ -62,7 +65,6 @@ Can you beat my streak? 💪
   };
 
   useEffect(() => {
-    // if (targetWord) {
     UpdateUserData(params?.result === "win", params?.mode)
       .then((userData) => {
         setUserData(userData);
@@ -72,9 +74,9 @@ Can you beat my streak? 💪
         console.log({ e });
         setLoading(false);
       });
-    // }
   }, [targetWord, params?.mode]);
 
+  // update header right side icons and buttons
   useEffect(() => {
     navigation.setOptions({
       headerRight: () =>
@@ -107,7 +109,9 @@ Can you beat my streak? 💪
   }, [showWordInfo, loading, targetWord, userData]);
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 15, paddingBottom: 150 }}>
+    <ScrollView
+      contentContainerStyle={{ padding: 15, gap: 15, paddingBottom: 150 }}
+    >
       {targetWord ? (
         <CustomText centerText type={"title"} style={styles.title}>
           YOU {params?.result}!

@@ -1,4 +1,4 @@
-import { View, Text, Platform, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { Stack } from "expo-router";
 import { Colors } from "../../src/utils/colors";
@@ -6,20 +6,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const GameLayout = () => {
-  const isAndroid = Platform.OS === "android";
-
   return (
-    <Stack
-      screenOptions={{
-        statusBarStyle: isAndroid ? "dark" : undefined,
-      }}
-    >
+    <Stack>
       <Stack.Screen name="Home" options={{ headerShown: false }} />
       <Stack.Screen name="Result" />
       <Stack.Screen
         name="(mode)/Grammar"
         options={{
-          title : "Fill in the Blanks",
+          title: "Fill in the Blanks",
           header(props) {
             return <CustomHeader {...props} />;
           },

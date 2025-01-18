@@ -40,6 +40,9 @@ const Index = () => {
 
   const navigation = useNavigation();
 
+  /**
+   * Update words in the wordle document in admin collection
+   */
   const updateWordleAdd = async (data, type) => {
     const userDoc = doc(db, "admin", type);
     await updateDoc(userDoc, {
@@ -63,6 +66,9 @@ const Index = () => {
     }
   };
 
+  /**
+   * fetch words (5-letter) from the wordle document in admin collection
+   */
   const getWordleData = async () => {
     try {
       setWordleWordsLoading(true);
@@ -78,6 +84,9 @@ const Index = () => {
     }
   };
 
+  /**
+   * get words (4-letter) from the timed wordle document in admin collection
+   */
   const getTimedWordleData = async () => {
     try {
       setTimedWordleWordleLoading(true);
@@ -93,6 +102,9 @@ const Index = () => {
     }
   };
 
+  /**
+   * get grammar questions from the grammar document in admin collection
+   */
   const getGrammarData = async () => {
     try {
       setGrammarQuestionsLoading(true);
@@ -108,6 +120,7 @@ const Index = () => {
     }
   };
 
+  // get all data when screen mount
   useEffect(() => {
     getWordleData();
     getTimedWordleData();
@@ -122,6 +135,7 @@ const Index = () => {
     });
   }, []);
 
+  // show header at the top
   const Header = ({ name, onPress }) => (
     <View
       style={{

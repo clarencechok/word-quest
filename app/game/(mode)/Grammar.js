@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import PagerView from "react-native-pager-view";
@@ -6,8 +6,7 @@ import { CustomText } from "../../../src/components/CustomText";
 import CustomButton from "../../../src/components/CustomButton";
 import { Colors } from "../../../src/utils/colors";
 import InstructionModal from "../../../src/components/InstructionModal";
-import { SlideInDown, SlideInUp } from "react-native-reanimated";
-import { CheckTime } from "../../../src/utils/CheckTime";
+import { SlideInDown } from "react-native-reanimated";
 
 const Grammar = () => {
   const params = useLocalSearchParams();
@@ -34,11 +33,10 @@ const Grammar = () => {
     return array;
   };
 
+  // get all data when screen mount
   useEffect(() => {
     const questions = JSON.parse(params?.questions)[0];
     setQuestions(shuffleArray(questions).slice(0, 3));
-
-    // CheckTime("grammar");
 
     handleShowInstruction();
   }, []);
@@ -56,6 +54,9 @@ const Grammar = () => {
     setShowInstruction(false);
   };
 
+  /**
+   * use to submit the user response at the end of the grammar session
+   */
   const handleSubmit = useCallback(() => {
     router.replace({
       pathname: "/game/Result",
@@ -72,6 +73,9 @@ const Grammar = () => {
     setSelectedOption(null);
   }, [questions, selectedIndex, userResponse]);
 
+  /**
+   * use to handle the user interaction upon answers click. and update the userResponse state
+   */
   const handleAnswer = (question, correctAnswer, userAnswer, index) => {
     if (selectedOption) {
       setUserResponse((prev) => [

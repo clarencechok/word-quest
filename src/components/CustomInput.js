@@ -1,5 +1,5 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import { Text, TextInput, StyleSheet } from "react-native";
+import React from "react";
 import { Colors } from "../utils/colors";
 import Animated from "react-native-reanimated";
 
@@ -47,12 +47,10 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 15,
     minHeight: 50,
-    // borderWidth: 3,
     color: "black",
     borderRadius: 10,
     paddingVertical: 5,
     paddingHorizontal: 15,
     backgroundColor: Colors.card,
-    // borderColor: colors.primary,
   },
 });

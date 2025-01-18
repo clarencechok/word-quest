@@ -1,3 +1,6 @@
+/**
+ * store all images reference so can get easily and import
+ */
 export const IMAGES = {
   wrong: require("./wrong.png"),
   misplaced: require("./misplaced.png"),

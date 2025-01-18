@@ -3,7 +3,6 @@ import {
   Text,
   TouchableOpacity,
   useWindowDimensions,
-  StyleSheet,
 } from "react-native";
 import React from "react";
 import Animated, {
@@ -88,9 +87,9 @@ const CustomKeyboard = ({ onPressWord, onDelete, onConfirm }) => {
                 >
                   <Text
                     style={{
+                      fontSize: 20,
                       fontWeight: "500",
                       textTransform: "uppercase",
-                      fontSize: 20,
                     }}
                     allowFontScaling
                   >
@@ -105,7 +104,6 @@ const CustomKeyboard = ({ onPressWord, onDelete, onConfirm }) => {
 
       <View
         style={{
-          // width: "100%",
           gap: 10,
           marginBottom: 10,
           flexDirection: "row",
@@ -120,9 +118,8 @@ const CustomKeyboard = ({ onPressWord, onDelete, onConfirm }) => {
         />
         <CustomButton
           onPress={() => {
-            onDelete()
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
-
+            onDelete();
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
           }}
           parentStyle={{ flex: 1 }}
           viewStyle={{ backgroundColor: "#434c63" }}

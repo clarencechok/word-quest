@@ -8,6 +8,7 @@ import { Bold, CustomText } from "../../src/components/CustomText";
 import { FadeInDown } from "react-native-reanimated";
 
 const SignUp = () => {
+  // store user input from input fields
   const [userData, setUserData] = useState({
     email: "",
     password: "",

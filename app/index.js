@@ -11,6 +11,7 @@ export default function Index() {
   const [initialData, setInitialData] = useState([]);
 
   useEffect(() => {
+    // A listener that listen the auth changes like on signin, signup, etc
     auth.onAuthStateChanged((user) => {
       console.log("user email => ", user?.email);
       setTimeout(async () => {
@@ -23,8 +24,6 @@ export default function Index() {
         setInitialData(data);
       }, 1000);
     });
-
-    // return () => sub()
   }, []);
 
   if (loading) {

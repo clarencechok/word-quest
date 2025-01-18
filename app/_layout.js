@@ -3,6 +3,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as Notifications from "expo-notifications";
 import { useEffect } from "react";
 import { Platform } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -13,7 +14,10 @@ Notifications.setNotificationHandler({
 });
 
 export default function RootLayout() {
-  async function scheduleDailyNotification() {
+  /**
+   * set daily schedule notification at 9:00 am & create notification channel for android to work seamlessly.
+   */
+  const scheduleDailyNotification = async () => {
     if (Platform.OS === "android") {
       await Notifications.setNotificationChannelAsync("daily_reminder", {
         name: "A channel is needed for the permissions prompt to appear",
@@ -38,18 +42,17 @@ export default function RootLayout() {
     });
 
     console.log("Daily Notification Scheduled", notificationId);
-  }
+  };
 
   useEffect(() => {
+    // request a notification permission on app mount.
     Notifications.requestPermissionsAsync();
     scheduleDailyNotification();
-    // Notifications.getAllScheduledNotificationsAsync().then((e) =>
-    //   console.log(e)
-    // );
   }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar style="dark" />
       <Stack screenOptions={{ headerBackTitle: "Back", headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="user" />

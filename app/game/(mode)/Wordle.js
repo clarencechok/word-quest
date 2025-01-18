@@ -14,6 +14,7 @@ const Wordle = () => {
     Array.from({ length: 6 }, () => ({ guess: "", feedback: [] }))
   );
 
+  // get params from previous screen
   const params = useLocalSearchParams();
 
   const [showInstruction, setShowInstruction] = useState(false);
@@ -21,6 +22,7 @@ const Wordle = () => {
   const [currentRow, setCurrentRow] = React.useState(0); // Track the active row
   const [targetWord, setTargetWord] = React.useState(""); // Hardcoded for now
 
+  // get & prepare data when screen mount
   useEffect(() => {
     const words = JSON.parse(params?.words)[2] ?? fiveLettersWords;
 
@@ -63,7 +65,6 @@ const Wordle = () => {
     console.log(rows[currentRow].guess, targetWord);
 
     if (rows[currentRow].guess === targetWord) {
-      // alert("You Win!");
       setTimeout(() => {
         router.replace({
           pathname: "/game/Result",
@@ -80,7 +81,6 @@ const Wordle = () => {
     }
 
     if (currentRow === 5) {
-      // alert("Game Over!");
       router.replace({
         pathname: "/game/Result",
         params: {
@@ -121,6 +121,7 @@ const Wordle = () => {
     return feedback;
   };
 
+  // use to handle word press from keyboard
   const handlePressWord = (letter) => {
     if (rows[currentRow].guess.length >= 5) {
       return;

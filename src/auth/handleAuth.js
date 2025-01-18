@@ -6,18 +6,19 @@ import { auth, db } from "../utils/firebase";
 import { Alert } from "react-native";
 import { router } from "expo-router";
 import {
-  addDoc,
   collection,
   doc,
   getDoc,
   getDocs,
-  increment,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
+/**
+ * handle login user data using email and password
+ * also validate before creating
+ */
 const Login = async (email, password) => {
   if (!emailRegex.test(email)) {
     Alert.alert("Alert", "Please enter a valid email!");
@@ -51,6 +52,10 @@ const Login = async (email, password) => {
   }
 };
 
+/**
+ * handle signup user data using email and password
+ * also validate before creating
+ */
 const Register = async (email, password) => {
   if (!emailRegex.test(email)) {
     Alert.alert("Alert", "Please enter a valid email!");
@@ -94,6 +99,9 @@ const Register = async (email, password) => {
   }
 };
 
+/**
+ * handle logout user
+ */
 const Logout = () => {
   auth
     .signOut()
@@ -106,6 +114,9 @@ const Logout = () => {
     });
 };
 
+/**
+ * describe the auth error in readable format upon signin or signup
+ */
 const handleAuthError = (error) => {
   let errorMessage = "An unexpected error occurred. Please try again.";
 
@@ -148,6 +159,9 @@ const handleAuthError = (error) => {
   return errorMessage;
 };
 
+/**
+ * update user games data to the firestore
+ */
 const UpdateUserData = async (isWin, mode) => {
   try {
     const { currentUser } = auth;
@@ -164,17 +178,14 @@ const UpdateUserData = async (isWin, mode) => {
           ? {
               ..._userData,
               [mode]: {
-                totalGamesPlayed: (modeData?.totalGamesPlayed ?? 0) + 1, // increment(1), // Increment total games played
-                // win: isWin ? (modeData?.win ?? 0) + 1 : modeData?.win ?? 0, // Increment win if true
-                // lost: isWin ? modeData?.lost ?? 0 : (modeData?.lost ?? 0) + 1, // Increment lost if false
-                // streaks: isWin ? (modeData?.streaks ?? 0) + 1 : 0, // Reset streaks on loss
+                totalGamesPlayed: (modeData?.totalGamesPlayed ?? 0) + 1, // Increment total games played
                 lastPlayedTime: Date.now(),
               },
             }
           : {
               ..._userData,
               [mode]: {
-                totalGamesPlayed: (modeData?.totalGamesPlayed ?? 0) + 1, // increment(1), // Increment total games played
+                totalGamesPlayed: (modeData?.totalGamesPlayed ?? 0) + 1, // Increment total games played
                 win: isWin ? (modeData?.win ?? 0) + 1 : modeData?.win ?? 0, // Increment win if true
                 lost: isWin ? modeData?.lost ?? 0 : (modeData?.lost ?? 0) + 1, // Increment lost if false
                 streaks: isWin ? (modeData?.streaks ?? 0) + 1 : 0, // Reset streaks on loss
@@ -191,6 +202,9 @@ const UpdateUserData = async (isWin, mode) => {
   }
 };
 
+/**
+ * get initial data like wordle, timed wordle, and grammar questions so can assign to the user upon game start.
+ */
 const getInitialData = async (setLoading) => {
   try {
     setLoading && setLoading(true);
