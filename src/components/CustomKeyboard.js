@@ -113,17 +113,19 @@ const CustomKeyboard = ({ onPressWord, onDelete, onConfirm }) => {
         <CustomButton
           text={"Confirm"}
           onPress={onConfirm}
+          containerStyle={{ padding: 10 }}
           parentStyle={{ flex: 1 }}
           viewStyle={{ flex: 1, backgroundColor: "#434c63" }}
         />
         <CustomButton
+          containerStyle={{ padding: 10 }}
           onPress={() => {
             onDelete();
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
           }}
           parentStyle={{ flex: 1 }}
           viewStyle={{ backgroundColor: "#434c63" }}
-          text={<Feather name="delete" size={24} color="white" />}
+          text={<Feather name="delete" size={18} color="white" />}
         />
       </View>
     </View>

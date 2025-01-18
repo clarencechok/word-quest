@@ -12,11 +12,13 @@ const Home = () => {
 
   return (
     <Container style={{ justifyContent: "space-evenly", padding: 15 }}>
-      <CustomText fontSize={50} centerText bold>
-        Word Quest
-      </CustomText>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <CustomText fontSize={50} centerText bold>
+          Word Quest
+        </CustomText>
+      </View>
 
-      <View style={{ gap: 30 }}>
+      <View style={{ gap: 15 }}>
         <CustomText fontSize={30} centerText>
           Select Game Mode
         </CustomText>
@@ -61,6 +63,11 @@ const Home = () => {
 
       <CustomButton
         text={"Logout"}
+        parentStyle={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
         onPress={Logout}
         textStyle={{ color: "black" }}
         viewStyle={{ backgroundColor: "transparent" }}

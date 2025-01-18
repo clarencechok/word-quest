@@ -10,7 +10,7 @@ const BASE_WIDTH = 375;
 const BASE_HEIGHT = 812;
 
 // Responsive font function
-const responsiveFont = (fontSize) => {
+export const responsiveFont = (fontSize) => {
   // Scale based on the screen's width
   const scale = screenWidth / BASE_WIDTH;
   return Math.round(PixelRatio.roundToNearestPixel(fontSize * scale));

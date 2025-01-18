@@ -18,6 +18,7 @@ const CustomButton = ({
   viewStyle,
   textStyle,
   parentStyle,
+  containerStyle
 }) => {
   const scale = useSharedValue(1);
   const radius = useSharedValue(5);
@@ -43,14 +44,7 @@ const CustomButton = ({
             scale.value = withTiming(1);
             radius.value = withTiming(5);
           }}
-          style={{
-            flex: 1,
-            padding: 15,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingHorizontal: 20,
-          }}
+          style={[styles.container, containerStyle]}
         >
           {left && left}
           <Text style={[styles.buttonText, textStyle]}>{text}</Text>
@@ -69,6 +63,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     backgroundColor: Colors.primary,
+  },
+  container: {
+    flex: 1,
+    padding: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    justifyContent: "center",
   },
   buttonText: {
     fontSize: 15,

@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { responsiveFont } from "./CustomText";
 
 const WordBox = ({ guess, feedback = [], boxNumbers = 5, isActive }) => {
   return (
@@ -38,8 +39,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   box: {
-    width: 50,
-    height: 50,
+    width: responsiveFont(40),
+    height: responsiveFont(40),
     borderWidth: 2,
     borderRadius: 4,
     alignItems: "center",
