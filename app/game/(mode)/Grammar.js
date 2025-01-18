@@ -102,7 +102,7 @@ const Grammar = () => {
   };
 
   return (
-    <View style={{ flex: 1, paddingTop: "10%" }}>
+    <View style={{ flex: 1, marginTop: 10 }}>
       <PagerView
         ref={pagerRef}
         initialPage={0}
@@ -177,7 +177,6 @@ const Grammar = () => {
               {!showSubmit && (
                 <CustomButton
                   text={"Next"}
-                  viewStyle={{ marginTop: "30%" }}
                   onPress={() => {
                     handleAnswer(
                       question.question,
@@ -193,7 +192,6 @@ const Grammar = () => {
                 <CustomButton
                   entering={SlideInDown}
                   text={"Submit Answer"}
-                  viewStyle={{ marginTop: "30%" }}
                   onPress={() => {
                     handleSubmit();
                   }}
